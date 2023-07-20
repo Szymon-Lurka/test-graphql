@@ -6,9 +6,9 @@
   "dependencies": {
     "@apollo/server": "^4.7.5",
     "graphql": "^16.7.1",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "uniqid": "^5.4.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node demo.js"
   },

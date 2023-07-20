@@ -1,47 +1,80 @@
 const gql = require('graphql-tag');
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
-const typeUser = gql`
+const uniqid = require('uniqid');
+const typeDefs = gql`
 type User {
+    id: ID!
     email: String!
-    avatar: String!
+    name: String!
     friends: [User]!
 }
-`;
-const typeQuery = gql`
 type Query {
     me: User!
-    friends: [User]!
+    user(id: ID!): User!
    }
+
+input addFriendInput {
+    email: String!
+    name: String!
+}
+input addFriendToUserInput {
+    friendID: ID!
+    userID: ID!
+}
+type Mutation {
+    addUser(input: addFriendInput): User!
+    addFriendToUser(input: addFriendToUserInput): User!
+}
 `;
 
-const typeDefs = gql`
-   ${typeUser}
-   ${typeQuery}
-`;
+
+const me = {
+    id: 'random_id',
+    email: 'szimiszu@gmail.com',
+    name: "Szymcio",
+    friends: []
+};
+
+const users = [{
+    id: 'random_user',
+    email: 'user@gmail.com',
+    name: "User",
+    friends: []
+},
+{
+    id: 'random_id',
+    email: 'szimiszu@gmail.com',
+    name: "Szymcio",
+    friends: []
+}
+];
 
 const resolvers = {
     Query: {
         me() {
-            return {
-                email: 'yoda@master.com',
-                avatar: 'http://yoda.png',
-                friends: [
-                    {
-                        email: 'myemail@com',
-                        avatar: 'http://master.jpg',
-                        friends: []
-                    },
-                    {
-                        email: 'myemail@com',
-                        avatar: 'http://master.jpg',
-                        friends: []
-                    }
-                ]
-            }
+            return me
         },
-        friends() {
-            return [];
+        user(_, {id}) {
+            const user = users.find((user) => user.id === id);
+            return user;
+        }
+    },
+    Mutation: {
+        addUser(_, {input}) {
+            const id = uniqid();
+            const newUser = {...input, id, friends: []};
+            users.push(newUser);
+            return newUser;
+        },
+        addFriendToUser(_, {input}) {
+            const user = users.find((user) => user.id === input.userID);
+            const friend = users.find((user) => user.id === input.friendID);
+            if (me.id === input.userID) {
+                me.friends.push(friend);
+            }
+            user.friends.push(friend);
+            return friend
         }
     }
 }
