@@ -52,7 +52,7 @@ const server = new ApolloServer({
 });
 const startServer = async () => {
     const {url} = await startStandaloneServer(server, {
-        listen: {port: 4000}
+        listen: {port: process.env.PORT || 80}
     });
     console.log(`Listening on: ${url}`);
 }
