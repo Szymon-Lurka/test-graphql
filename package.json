@@ -1,7 +1,26 @@
 {
+  "name": "graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "demo.js",
   "dependencies": {
     "@apollo/server": "^4.7.5",
     "graphql": "^16.7.1",
     "graphql-tag": "^2.12.6"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node demo.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Szymon-Lurka/test-graphql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Szymon-Lurka/test-graphql/issues"
+  },
+  "homepage": "https://github.com/Szymon-Lurka/test-graphql#readme"
 }
